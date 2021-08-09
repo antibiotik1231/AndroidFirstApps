@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     fun counterMeFragment(view: View) {
         val fragment: ExFragment = supportFragmentManager.findFragmentById(R.id.exampleFragment) as ExFragment
-
     }
 
 
