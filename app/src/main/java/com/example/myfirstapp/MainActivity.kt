@@ -34,11 +34,10 @@ class MainActivity : AppCompatActivity() {
         //
     }
 
-/*
+
     fun toastMeFragment(view: View) {
         val fragment: ExFragment = supportFragmentManager.findFragmentById(R.id.exampleFragment) as ExFragment
-
-    }*/
+    }
 
 
     fun sendMessage(view: View) {
