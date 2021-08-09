@@ -28,14 +28,14 @@ class ExFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<TextView>(R.id.textView3).setText("0")
+        //view.findViewById<TextView>(R.id.textView3).setText("0")
         val button2: Button = view.findViewById<Button>(R.id.button2)
         button2.setOnClickListener(object : View.OnClickListener {
            override fun onClick(v: View?) {
-                val textView = v?.findViewById<TextView>(R.id.textView3)
+                val textView = view.findViewById<TextView>(R.id.textView3)
                 var number = Integer.parseInt(textView?.text.toString())
                 number++
-                val newTextView = v?.findViewById<TextView>(R.id.textView3)?.apply {
+                val newTextView = view.findViewById<TextView>(R.id.textView3)?.apply {
                     text = number.toString()
                 }
             }
