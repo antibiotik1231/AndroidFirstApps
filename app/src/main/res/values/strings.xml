@@ -8,4 +8,7 @@
     <string name="count_button">count</string>
     <string name="random_button">random</string>
     <string name="label">Случайное число между 0 и ${random_number}</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_text">New Fragment</string>
+    <string name="fragment_button">Click Me!</string>
 </resources>

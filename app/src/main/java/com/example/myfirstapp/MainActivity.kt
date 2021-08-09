@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import android.widget.TextView
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
 import kotlin.random.Random
 
 
@@ -18,7 +20,26 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        if (savedInstanceState == null) {
+            supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                add<ExFragment>(R.id.exampleFragment)
+            }
+        }
     }
+
+
+    fun counterMeFragment(view: View) {
+        val fragment: ExFragment = supportFragmentManager.findFragmentById(R.id.exampleFragment) as ExFragment
+        //
+    }
+
+/*
+    fun toastMeFragment(view: View) {
+        val fragment: ExFragment = supportFragmentManager.findFragmentById(R.id.exampleFragment) as ExFragment
+
+    }*/
+
 
     fun sendMessage(view: View) {
         val editText = findViewById<EditText>(R.id.editTextTextPersonName)
