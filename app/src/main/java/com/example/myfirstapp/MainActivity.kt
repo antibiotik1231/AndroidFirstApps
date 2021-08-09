@@ -1,15 +1,15 @@
 package com.example.myfirstapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
-import kotlin.random.Random
+import java.util.*
 
 
 const val EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE"
@@ -21,21 +21,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                add<ExFragment>(R.id.exampleFragment)
-            }
+            addNewFragment()
         }
     }
 
 
-    fun counterMeFragment(view: View) {
-        val fragment: ExFragment = supportFragmentManager.findFragmentById(R.id.exampleFragment) as ExFragment
+    fun addNewFragment() {
+        Toast.makeText(this, "asdasd", Toast.LENGTH_SHORT).show()
+        supportFragmentManager.commit {
+            add<ExFragment>(R.id.exampleFragment, UUID.randomUUID().toString())
+        }
     }
 
-
-    fun toastMeFragment(view: View) {
-        val fragment: ExFragment = supportFragmentManager.findFragmentById(R.id.exampleFragment) as ExFragment
+    fun removeFragment() {
+        supportFragmentManager.commit {
+            remove(supportFragmentManager.fragments.last())
+        }
     }
 
 

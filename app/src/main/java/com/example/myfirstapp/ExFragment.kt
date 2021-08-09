@@ -1,13 +1,12 @@
 package com.example.myfirstapp
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 
 /**
  * A simple [Fragment] subclass.
@@ -15,7 +14,6 @@ import android.widget.Toast
  * create an instance of this fragment.
  */
 class ExFragment : Fragment() {
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,37 +26,18 @@ class ExFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //view.findViewById<TextView>(R.id.textView3).setText("0")
-        val button2: Button = view.findViewById<Button>(R.id.button2)
-        button2.setOnClickListener(object : View.OnClickListener {
-           override fun onClick(v: View?) {
-                val textView = view.findViewById<TextView>(R.id.textView3)
-                var number = Integer.parseInt(textView?.text.toString())
-                number++
-                val newTextView = view.findViewById<TextView>(R.id.textView3)?.apply {
-                    text = number.toString()
-                }
+        with(view.findViewById<TextView>(R.id.textView3)) {
+            text = activity?.supportFragmentManager?.fragments?.size.toString()
+        }
+        with(view.findViewById<Button>(R.id.button2)) {
+            setOnClickListener {
+                (activity as MainActivity).addNewFragment()
             }
-        })
-
-
-        val button: Button = view.findViewById<Button>(R.id.button3)
-        button.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View) {
-                val MyToast = Toast.makeText(activity,"Hi!", Toast.LENGTH_LONG)
-                MyToast.show()
+        }
+        with(view.findViewById<Button>(R.id.button3)) {
+            setOnClickListener {
+                (activity as MainActivity).removeFragment()
             }
-        })
-
-
-    }
-
-    fun counterFragment(view: View) {
-        val textView = view.findViewById<TextView>(R.id.textView3)
-        var number = Integer.parseInt(textView.text.toString())
-        number++
-        val newTextView = view.findViewById<TextView>(R.id.textView3).apply {
-            text = number.toString()
         }
     }
 }
