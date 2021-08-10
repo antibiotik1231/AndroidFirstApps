@@ -1,5 +1,6 @@
 package com.example.myfirstapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment
  * Use the [ExFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+const val EXTRA_MESSAGE2 = "com.example.myfirstapp.MESSAGE2"
 class ExFragment : Fragment() {
 
     override fun onCreateView(
@@ -32,12 +34,25 @@ class ExFragment : Fragment() {
         }
         with(view.findViewById<Button>(R.id.button2)) {
             setOnClickListener {
-                (activity as MainActivity).addNewFragment()
+                MyApplication.INSTANCE.getRouter().navigateTo(Screens.ExScreen())
+                //(activity as MainActivity).addNewFragment()
             }
         }
         with(view.findViewById<Button>(R.id.button3)) {
             setOnClickListener {
                 (activity as MainActivity).onBackPressed()
+            }
+        }
+        with(view.findViewById<Button>(R.id.button4)) {
+            setOnClickListener {
+                val intent =
+                    Intent((activity as MainActivity).baseContext, DisplayMessageActivity::class.java).apply {
+                        putExtra(
+                            EXTRA_MESSAGE2,
+                            view.findViewById<TextView>(R.id.textView3).text.toString()
+                        )
+                    }
+                startActivity(intent)
             }
         }
     }

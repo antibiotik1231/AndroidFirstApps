@@ -19,7 +19,7 @@ const val EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE"
 const val TOTAL_COUNT = "com.example.myfirstapp.TOTAL_COUNT"
 
 
-class MainActivity(activity: FragmentActivity, containerId: Int) : AppCompatActivity() {
+class MainActivity() : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -43,7 +43,6 @@ class MainActivity(activity: FragmentActivity, containerId: Int) : AppCompatActi
     }
 
 
-
     fun sendMessage(view: View) {
         val editText = findViewById<EditText>(R.id.editTextTextPersonName)
         val message = editText.text.toString()
@@ -51,6 +50,10 @@ class MainActivity(activity: FragmentActivity, containerId: Int) : AppCompatActi
             putExtra(EXTRA_MESSAGE, message)
         }
         startActivity(intent)
+    }
+
+    fun sendMessageFragment(view: View) {
+
     }
 
     fun toastMe(view: View) {
@@ -75,12 +78,6 @@ class MainActivity(activity: FragmentActivity, containerId: Int) : AppCompatActi
     }
 
 
-/*    private val navigator: Navigator = object : AppNavigator(this, R.id.exampleFragment) {
-        override fun commitNewFragmentScreen(screen: FragmentScreen, addToBackStack: Boolean) {
-            super.commitNewFragmentScreen(screen, addToBackStack)
-        }
-    }*/
-
     private val navigator = AppNavigator(this, R.id.exampleFragment)
 
     override fun onResume() {
@@ -91,6 +88,11 @@ class MainActivity(activity: FragmentActivity, containerId: Int) : AppCompatActi
     override fun onPause() {
         super.onPause()
         MyApplication.INSTANCE.getNavigatorHolder()?.removeNavigator()
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        MyApplication.INSTANCE.getNavigatorHolder()?.setNavigator(navigator)
     }
 
 }
