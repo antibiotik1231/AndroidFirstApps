@@ -9,13 +9,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.*
 import java.util.*
+import com.github.terrakok.cicerone.Command
+import com.github.terrakok.cicerone.Navigator
+import com.github.terrakok.cicerone.androidx.AppNavigator
+import com.github.terrakok.cicerone.androidx.FragmentScreen
 
 
 const val EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE"
 const val TOTAL_COUNT = "com.example.myfirstapp.TOTAL_COUNT"
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity(activity: FragmentActivity, containerId: Int) : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             remove(supportFragmentManager.fragments.last())
         }
     }
+
 
 
     fun sendMessage(view: View) {
@@ -68,4 +73,24 @@ class MainActivity : AppCompatActivity() {
         random_intent.putExtra(TOTAL_COUNT, countState)
         startActivity(random_intent)
     }
+
+
+/*    private val navigator: Navigator = object : AppNavigator(this, R.id.exampleFragment) {
+        override fun commitNewFragmentScreen(screen: FragmentScreen, addToBackStack: Boolean) {
+            super.commitNewFragmentScreen(screen, addToBackStack)
+        }
+    }*/
+
+    private val navigator = AppNavigator(this, R.id.exampleFragment)
+
+    override fun onResume() {
+        super.onResume()
+        MyApplication.INSTANCE.getNavigatorHolder()?.setNavigator(navigator)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        MyApplication.INSTANCE.getNavigatorHolder()?.removeNavigator()
+    }
+
 }

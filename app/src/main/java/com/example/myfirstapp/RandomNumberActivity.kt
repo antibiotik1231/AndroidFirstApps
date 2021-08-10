@@ -17,6 +17,7 @@ class RandomNumberActivity : AppCompatActivity() {
             text = messageInt.toString()
         }
 
+
         val labelView = findViewById<TextView>(R.id.randomNumber).apply {
             text = "Случайное число между 0 и $message"
         }
