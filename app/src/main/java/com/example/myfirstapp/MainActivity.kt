@@ -23,8 +23,8 @@ class MainActivity() : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (savedInstanceState == null) {
-            addNewFragment()
+        if (supportFragmentManager.fragments.isEmpty()) {
+            MyApplication.INSTANCE.getRouter().newRootScreen(Screens.ExScreen())
         }
     }
 
@@ -79,11 +79,6 @@ class MainActivity() : AppCompatActivity() {
 
 
     private val navigator = AppNavigator(this, R.id.exampleFragment)
-
-    override fun onResume() {
-        super.onResume()
-        MyApplication.INSTANCE.getNavigatorHolder()?.setNavigator(navigator)
-    }
 
     override fun onPause() {
         super.onPause()
