@@ -27,7 +27,8 @@ class ExFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(view.findViewById<TextView>(R.id.textView3)) {
-            text = activity?.supportFragmentManager?.fragments?.size.toString()
+            //text = activity?.supportFragmentManager?.fragments?.size.toString()
+            text = activity?.supportFragmentManager?.backStackEntryCount.toString()
         }
         with(view.findViewById<Button>(R.id.button2)) {
             setOnClickListener {
@@ -36,7 +37,7 @@ class ExFragment : Fragment() {
         }
         with(view.findViewById<Button>(R.id.button3)) {
             setOnClickListener {
-                (activity as MainActivity).removeFragment()
+                (activity as MainActivity).onBackPressed()
             }
         }
     }

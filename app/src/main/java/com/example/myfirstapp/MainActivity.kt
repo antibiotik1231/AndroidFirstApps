@@ -7,8 +7,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.add
-import androidx.fragment.app.commit
+import androidx.fragment.app.*
 import java.util.*
 
 
@@ -27,9 +26,9 @@ class MainActivity : AppCompatActivity() {
 
 
     fun addNewFragment() {
-        Toast.makeText(this, "asdasd", Toast.LENGTH_SHORT).show()
         supportFragmentManager.commit {
-            add<ExFragment>(R.id.exampleFragment, UUID.randomUUID().toString())
+            replace<ExFragment>(R.id.exampleFragment)
+            addToBackStack(null)
         }
     }
 
