@@ -1,5 +1,6 @@
 package com.example.myfirstapp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,14 +8,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import com.example.myfirstapp.di.getAppComponent
+import com.github.terrakok.cicerone.Router
 import java.util.*
+import javax.inject.Inject
 
-const val EXTRA_MESSAGE2 = "com.example.myfirstapp.MESSAGE2"
-const val EXTRA_MESSAGE3 = "com.example.myfirstapp.MESSAGE3"
-const val EXTRA_MESSAGE4 = "com.example.myfirstapp.MESSAGE4"
 class ExFragment : Fragment() {
+
+    companion object {
+        const val ARG_NUMBER = "number"
+        fun newInstance(number: Int) = ExFragment().apply {
+            arguments = bundleOf(
+                ARG_NUMBER to number
+            )
+        }
+    }
+
+    private val number get() = arguments?.getInt(ARG_NUMBER, -1) ?: -1
+
+    @Inject
+    lateinit var router: Router
+
+    override fun onAttach(context: Context) {
+        context.getAppComponent().inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,63 +45,32 @@ class ExFragment : Fragment() {
         return view
     }
 
-    private fun createChain(number: Int?): String {
-        var chain = "[0]"
-        val n : Int = number!!.toInt()
-        for (i in 0 until n) {
-            chain += "➔" + (i + 1)
-        }
-        return chain
-    }
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(view.findViewById<TextView>(R.id.textView3)) {
-            //text = activity?.supportFragmentManager?.fragments?.size.toString()
-            text = createChain(activity?.supportFragmentManager?.backStackEntryCount)
+            text = (activity as MainActivity).getChain()
         }
         with(view.findViewById<Button>(R.id.button2)) {
             setOnClickListener {
-                MyApplication.INSTANCE.getRouter().navigateTo(Screens.ExScreen())
-                //(activity as MainActivity).addNewFragment()
+                router.navigateTo(Screens.ExScreen(number + 1))
             }
         }
         with(view.findViewById<Button>(R.id.button3)) {
             setOnClickListener {
-                (activity as MainActivity).onBackPressed()
+                router.exit()
             }
         }
         with(view.findViewById<Button>(R.id.button4)) {
             setOnClickListener {
-                // MyApplication.INSTANCE.getRouter().navigateTo(Screens.StartScreen())
-                val intent =
-                    Intent((activity as MainActivity).baseContext, DisplayMessageActivity::class.java).apply {
-                        putExtra(
-                            EXTRA_MESSAGE2,
-                            view.findViewById<TextView>(R.id.textView3).text.toString()
-                        )
-                    }
-                startActivity(intent)
+                var message: String = view.findViewById<TextView>(R.id.textView3).text.toString()
+                router.navigateTo(Screens.StartScreen(message))
             }
         }
         with(view.findViewById<Button>(R.id.button5)) {
             setOnClickListener {
-                // MyApplication.INSTANCE.getRouter().navigateTo(Screens.RandomScreen())
-                val num = activity?.supportFragmentManager?.backStackEntryCount!!
-                var RandomNumber = let { Random().nextInt(num) }
-                val intent =
-                    Intent((activity as MainActivity).baseContext, RandomNumberActivity::class.java).apply {
-                        putExtra(
-                            EXTRA_MESSAGE3,
-                            RandomNumber.toString()
-                        )
-                        putExtra(
-                            EXTRA_MESSAGE4,
-                            num.toString()
-                        )
-                    }
-                startActivity(intent)
+                val num = activity?.supportFragmentManager?.backStackEntryCount!!.toString()
+                val randomNumber = let { Random().nextInt(num.toInt()) }.toString()
+                router.navigateTo(Screens.RandomScreen(randomNumber, num))
             }
         }
     }

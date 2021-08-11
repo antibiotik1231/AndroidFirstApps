@@ -1,18 +1,12 @@
 package com.example.myfirstapp
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.*
-import java.util.*
-import com.github.terrakok.cicerone.Command
-import com.github.terrakok.cicerone.Navigator
+import com.example.myfirstapp.di.getAppComponent
+import com.github.terrakok.cicerone.NavigatorHolder
+import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
-import com.github.terrakok.cicerone.androidx.FragmentScreen
+import javax.inject.Inject
 
 
 const val EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE"
@@ -20,72 +14,36 @@ const val TOTAL_COUNT = "com.example.myfirstapp.TOTAL_COUNT"
 
 
 class MainActivity() : AppCompatActivity() {
+    @Inject
+    lateinit var navigatorHolder: NavigatorHolder
+    @Inject
+    lateinit var router: Router
+    private val navigator = AppNavigator(this, R.id.exampleFragment)
     override fun onCreate(savedInstanceState: Bundle?) {
+        getAppComponent().inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (supportFragmentManager.fragments.isEmpty()) {
-            MyApplication.INSTANCE.getRouter().newRootScreen(Screens.ExScreen())
+            router.newRootScreen(Screens.ExScreen(0))
         }
-    }
-
-
-    fun addNewFragment() {
-        supportFragmentManager.commit {
-            replace<ExFragment>(R.id.exampleFragment)
-            addToBackStack(null)
-        }
-    }
-
-    fun removeFragment() {
-        supportFragmentManager.commit {
-            remove(supportFragmentManager.fragments.last())
-        }
-    }
-/*
-
-    fun sendMessage(view: View) {
-        val editText = findViewById<EditText>(R.id.editTextTextPersonName)
-        val message = editText.text.toString()
-        val intent = Intent(this, DisplayMessageActivity::class.java).apply {
-            putExtra(EXTRA_MESSAGE, message)
-        }
-        startActivity(intent)
-    }
-
-
-    fun toastMe(view: View) {
-        val MyToast = Toast.makeText(this, "Hello!", Toast.LENGTH_LONG)
-        MyToast.show()
-    }
-
-    fun counterMe(view: View) {
-        val textView = findViewById<TextView>(R.id.textView2)
-        var number = Integer.parseInt(textView.text.toString())
-        number++
-        val newTextView = findViewById<TextView>(R.id.textView2).apply {
-            text = number.toString()
-        }
-    }
-
-    fun randomMe(view: View) {
-        val random_intent = Intent(this, RandomNumberActivity::class.java)
-        val countState = findViewById<TextView>(R.id.textView2).text.toString()
-        random_intent.putExtra(TOTAL_COUNT, countState)
-        startActivity(random_intent)
-    }
-*/
-
-
-    private val navigator = AppNavigator(this, R.id.exampleFragment)
-
-    override fun onPause() {
-        super.onPause()
-        MyApplication.INSTANCE.getNavigatorHolder()?.removeNavigator()
     }
 
     override fun onResumeFragments() {
         super.onResumeFragments()
-        MyApplication.INSTANCE.getNavigatorHolder()?.setNavigator(navigator)
+        navigatorHolder.setNavigator(navigator)
     }
 
+    override fun onPause() {
+        super.onPause()
+        navigatorHolder.removeNavigator()
+    }
+
+    fun getChain(): String {
+        var chain = ""
+        supportFragmentManager.fragments.forEach {
+            val number = it.arguments?.getInt(ExFragment.ARG_NUMBER)
+            chain += "-> $number "
+        }
+        return chain
+    }
 }

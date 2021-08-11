@@ -5,11 +5,11 @@ import com.github.terrakok.cicerone.androidx.ActivityScreen
 import com.github.terrakok.cicerone.androidx.FragmentScreen
 
 object Screens {
-    fun ExScreen() = FragmentScreen { ExFragment() }
-    fun StartScreen(intent: Intent) = ActivityScreen {
-        Intent(it, DisplayMessageActivity::class.java)
+    fun ExScreen(number: Int) = FragmentScreen(clearContainer = false) { ExFragment.newInstance(number) }
+    fun StartScreen(message: String) = ActivityScreen {
+        DisplayMessageActivity.getIntent(it, message)
     }
-    fun RandomScreen(intent: Intent) = ActivityScreen {
-        Intent(it, DisplayMessageActivity::class.java)
+    fun RandomScreen(message1: String, message2: String) = ActivityScreen {
+        RandomNumberActivity.getIntent(it, message1, message2)
     }
 }
