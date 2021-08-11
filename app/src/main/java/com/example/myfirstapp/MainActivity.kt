@@ -41,7 +41,7 @@ class MainActivity() : AppCompatActivity() {
             remove(supportFragmentManager.fragments.last())
         }
     }
-
+/*
 
     fun sendMessage(view: View) {
         val editText = findViewById<EditText>(R.id.editTextTextPersonName)
@@ -52,9 +52,6 @@ class MainActivity() : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun sendMessageFragment(view: View) {
-
-    }
 
     fun toastMe(view: View) {
         val MyToast = Toast.makeText(this, "Hello!", Toast.LENGTH_LONG)
@@ -76,6 +73,7 @@ class MainActivity() : AppCompatActivity() {
         random_intent.putExtra(TOTAL_COUNT, countState)
         startActivity(random_intent)
     }
+*/
 
 
     private val navigator = AppNavigator(this, R.id.exampleFragment)

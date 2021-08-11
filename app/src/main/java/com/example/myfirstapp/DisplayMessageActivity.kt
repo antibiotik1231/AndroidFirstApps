@@ -3,6 +3,7 @@ package com.example.myfirstapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.*
 
 class DisplayMessageActivity : AppCompatActivity() {
@@ -13,18 +14,5 @@ class DisplayMessageActivity : AppCompatActivity() {
         val textView = findViewById<TextView>(R.id.textView).apply {
             text = message
         }
-        val bundle = Bundle()
-        bundle.putString(EXTRA_MESSAGE2, "From Activity")
-        if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-
-                add<TextFragment>(R.id.text_fragment)
-            }
-            addNew()
-        }
-    }
-
-    fun addNew() {
-
     }
 }

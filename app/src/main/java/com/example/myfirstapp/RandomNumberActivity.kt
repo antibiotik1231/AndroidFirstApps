@@ -10,16 +10,13 @@ class RandomNumberActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_random_number)
-        val message = intent.getStringExtra(TOTAL_COUNT)
-        var random = Random()
-        var messageInt = message?.toInt()?.let { random.nextInt(it) }
+        val message = intent.getStringExtra(EXTRA_MESSAGE3)
+        val num = intent.getStringExtra(EXTRA_MESSAGE4)
         val textView = findViewById<TextView>(R.id.randomNumberText).apply {
-            text = messageInt.toString()
+            text = message
         }
-
-
         val labelView = findViewById<TextView>(R.id.randomNumber).apply {
-            text = "Случайное число между 0 и $message"
+            text = "Случайное число между 0 и $num"
         }
     }
 }
