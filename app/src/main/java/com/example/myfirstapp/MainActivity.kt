@@ -14,14 +14,19 @@ const val TOTAL_COUNT = "com.example.myfirstapp.TOTAL_COUNT"
 
 
 class MainActivity() : AppCompatActivity() {
+
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
+
     @Inject
     lateinit var router: Router
+
     private val navigator = AppNavigator(this, R.id.exampleFragment)
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        getAppComponent().inject(this)
+
         super.onCreate(savedInstanceState)
+        getAppComponent().inject(this)
         setContentView(R.layout.activity_main)
         if (supportFragmentManager.fragments.isEmpty()) {
             router.newRootScreen(Screens.ExScreen(0))

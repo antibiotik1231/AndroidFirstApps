@@ -10,7 +10,9 @@
         <entry key="app/src/main/res/layout/activity_random_number.xml" value="0.302734375" />
         <entry key="app/src/main/res/layout/example_fragment.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_counter.xml" value="0.166015625" />
+        <entry key="app/src/main/res/layout/item_price.xml" value="0.215625" />
         <entry key="app/src/main/res/layout/placeholder_layout.xml" value="0.29508196721311475" />
+        <entry key="app/src/main/res/layout/search_fragment.xml" value="0.187890625" />
         <entry key="app/src/main/res/layout/text_fragment.xml" value="0.2171875" />
       </map>
     </option>

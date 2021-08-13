@@ -52,4 +52,10 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
     implementation("com.github.terrakok:cicerone:7.1")
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation "io.reactivex.rxjava2:rxjava:2.2.21"
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+
 }

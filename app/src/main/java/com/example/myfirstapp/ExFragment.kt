@@ -1,21 +1,19 @@
 package com.example.myfirstapp
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myfirstapp.databinding.ExampleFragmentBinding
 import com.example.myfirstapp.di.getAppComponent
+import com.example.myfirstapp.ui.ExFragmentViewModel
+import com.example.myfirstapp.utils.viewModels
 import com.github.terrakok.cicerone.Router
-import java.util.*
+import retrofit2.Retrofit
 import javax.inject.Inject
+
 
 class ExFragment : Fragment(R.layout.example_fragment) {
 
@@ -33,6 +31,17 @@ class ExFragment : Fragment(R.layout.example_fragment) {
     @Inject
     lateinit var router: Router
 
+    @Inject
+    lateinit var viewModelFactory: ExFragmentViewModel.Factory
+
+    @Inject
+    lateinit var retrofit: Retrofit
+
+    @Inject
+    lateinit var service: Service
+
+    private val viewModel by viewModels { viewModelFactory.get(number) }
+
     private lateinit var binding: ExampleFragmentBinding
 
     override fun onAttach(context: Context) {
@@ -43,23 +52,30 @@ class ExFragment : Fragment(R.layout.example_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val chainText = (activity as MainActivity).getChain()
+
         binding = ExampleFragmentBinding.bind(view)
         with(binding) {
             textView3.text = chainText
             button2.setOnClickListener {
-                router.navigateTo(Screens.ExScreen(number + 1))
+                viewModel.nextScreen()
             }
             button3.setOnClickListener {
-                router.exit()
+                viewModel.exit()
             }
             button4.setOnClickListener {
-                router.navigateTo(Screens.StartScreen(chainText))
+                viewModel.someButton4(chainText)
             }
             button5.setOnClickListener {
-                val num = (number + 1).toString()
-                val randomNumber = let { Random().nextInt(num.toInt()) }.toString()
-                router.navigateTo(Screens.RandomScreen(randomNumber, num))
+                viewModel.someButton5()
+            }
+            with(recyclerview) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = viewModel.getAdapter()
+            }
+            button6.setOnClickListener {
+                viewModel.someButton6(requireContext())
             }
         }
     }
 }
+
